@@ -45,7 +45,8 @@ guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)
 guess_button = Button(root, text='Guess!', command= entry_to_word)
 guess_button.grid(column=5, row=7, padx=5, pady=5)
 
-
+status_indicator = Label(root, text='Próba 1 z 6  ', bd=1, relief=SUNKEN, anchor=E)
+status_indicator.grid(column=0, row=8, columnspan=6, sticky=W+E, padx=5, pady=5)
 
 
 
