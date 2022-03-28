@@ -1,28 +1,43 @@
 from tkinter import *
+from tkinter import messagebox
+
 
 def split(word):
     return[char for char in word]
 
 def entry_to_word():
-    
+    if guess_entry.get() not in word_dictionary:
+        messagebox.showerror('Błąd!', 'Słowo nie znajduje się w słowniku!')
+        guess_entry.delete(0, END)
+        
     word_guess.set(guess_entry.get())
     temp = word_guess.get()
     word_list = split(temp)
 
-    print(word_list)
-    guess_print = Label(root, text=word_list)
-    guess_print.grid(column=0, row=lp.get())
+    #OSTATECZNIE TO NIE TUTAJ | ZOSTAWIAM DO DEBUGOWANIA
+    #print(word_list)
+    #guess_print = Label(root, text=word_list)
+    #guess_print.grid(column=0, row=lp.get())
+
     lp_change()
-    print(lp.get())
-    lp_change
+    
 
 def lp_change():
     lp.set(lp.get()+1)
 
 root = Tk()
+root.title('Wordle: Igor Edition')
+root.iconbitmap('a.ico')
 word_guess = StringVar(root)
 word_list = []
 lp = IntVar(root, 1)
+
+#cały słownik, zmienne i zawartość
+word_dictionary_txt_temp = open('lista.txt').read().split('\n')
+word_dictionary = list()
+for word in word_dictionary_txt_temp:
+    if len(word) == 5:
+        word_dictionary.append(word)
 
 guess_entry = Entry(root, width=40, border=5, relief=SUNKEN)
 guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)
