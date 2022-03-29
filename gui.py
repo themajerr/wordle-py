@@ -30,6 +30,8 @@ def guess_check():
     global guess_counter 
     guess_counter+=1
     temp = 0
+    
+
     while temp < 5:
         for char in word_guess_listform:
 
@@ -53,6 +55,9 @@ def guess_check():
 
                 temp+=1
                 continue
+    if word_guess_listform == correct_anwser_list:
+        messagebox.showinfo(title="Wygrałeś!", message='Gratulacje! Odgadłeś słowo!')
+        root.quit()
 
     update_status_indicator()
     if guess_counter == 6:
