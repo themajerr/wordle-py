@@ -25,7 +25,7 @@ def guess_check():
     guess_counter+=1
     temp = 0
     
-    while temp < 5:
+    while temp < total_guess_number:
         for char in word_guess_listform:
 
             if char == correct_answer_list[temp]:
@@ -53,7 +53,7 @@ def guess_check():
         root.quit()
 
     update_status_indicator()
-    if guess_counter == 6:
+    if guess_counter == total_guess_number+1:
         gameover()
             
     guess_entry.delete(0, END)
@@ -78,11 +78,13 @@ word_list = []
 
 global guess_counter 
 guess_counter = 0
+total_guess_number = 5
+desired_word_length = 5
 
 word_dictionary_txt_temp = open('lista.txt').read().split('\n')
 word_dictionary = list()
 for word in word_dictionary_txt_temp:
-    if len(word) == 5:
+    if len(word) == desired_word_length:
         word_dictionary.append(word)
 
 correct_answer = random.choice(word_dictionary)
