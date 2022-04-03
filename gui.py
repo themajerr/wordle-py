@@ -1,24 +1,29 @@
 from threading import get_ident
 from tkinter import *
 from tkinter import messagebox
-import gamesystem
+from gamesystem import Wordle, Dictionary, Correct_answer
+
 
 global guess_counter
 guess_counter = 0
+correct_answer = Correct_answer() 
 
 def whole_guess_operation():
 
     #entry to word + dictionary check -> pass word to gamesystem
     global guess_counter
-
+    
     entered_word = guess_entry.get()
     entered_word_letters = entered_word
-    if entered_word not in gamesystem.Wordle.word_dictionary:
+    dictionary = Dictionary()
+
+    if entered_word not in dictionary:
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
         guess_entry.delete(0, END)
 
     else:
-        entered_word = gamesystem.Wordle(entered_word)
+        
+        entered_word_returned = Wordle(entered_word, correct_answer)
         guess_entry.delete(0, END)
 
     # visual answer generation
@@ -28,11 +33,11 @@ def whole_guess_operation():
     for char in entered_word:
        
         temporary_color = ''
-        if entered_word[temporary_position] == gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
+        if entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
             temporary_color = '#569c38' #green
-        elif entered_word[temporary_position] == gamesystem.Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
+        elif entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
             temporary_color = '#d6c527' #yellow
-        elif entered_word[temporary_position] == gamesystem.Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
+        elif entered_word_returned[temporary_position] == Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
             temporary_color = '#7d796b' #grey
         
         print(temporary_color)
@@ -41,7 +46,7 @@ def whole_guess_operation():
         
         temporary_position+=1
         
-    
+    print(entered_word)
     #update guess indicator
     
     guess_counter+=1
@@ -50,18 +55,14 @@ def whole_guess_operation():
 
     # check if the word was correct
     # komentarz żebym nie zapomniał, dlatego po januszowemu; jeżeli program ma otrzymać wyłącznie info [dobrze, dobrze, średnio] itd to on technicznie nie zna odpowiedzi więc to jest mocno na trytytce xd
-    if entered_word == [gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value, 
-                        gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value, 
-                        gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value, 
-                        gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value, 
-                        gamesystem.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value]:
+    if entered_word == correct_answer:
         messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
         root.quit()
 
     # check for gameover
     # also komentarz - tutaj też teoretycznie nie zna poprawnej odpowiedzi xd
     if guess_counter == max_number_of_guesses:
-        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(gamesystem.Wordle.correct_answer))
+        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer))
         root.quit()
 
 # GUI frame + starting elements
