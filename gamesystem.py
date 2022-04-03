@@ -1,7 +1,7 @@
 import random
 
 
-class wordle:
+class Wordle:
     def __init__(self, guess_entry, word_guess_listform, word_dictionary, max_number_of_guesses, correct_answer_list, guess_counter, guess_check_results, entered_word, is_gameover, is_win):
         self.guess_entry = guess_entry
         self.word_guess_listform = word_guess_listform
@@ -39,40 +39,40 @@ class wordle:
         
         # word to list
         print(entered_word)
-        wordle.entered_word = list(wordle.split(entered_word))
-        print(wordle.entered_word)
+        Wordle.entered_word = list(Wordle.split(entered_word))
+        print(Wordle.entered_word)
         #guess_counter+=1
-        print(wordle.guess_counter)
+        print(Wordle.guess_counter)
         
         # mechanism itself
 
         char_position = 0
-        wordle.guess_check_results = []
+        Wordle.guess_check_results = []
                  
-        for char in wordle.entered_word:
-            if char == wordle.correct_answer_list[char_position]:
-                wordle.guess_check_results.append('CorrectLetter_CorrectPlace')
+        for char in Wordle.entered_word:
+            if char == Wordle.correct_answer_list[char_position]:
+                Wordle.guess_check_results.append('CorrectLetter_CorrectPlace')
                     
-            elif char in wordle.correct_answer_list:
-                wordle.guess_check_results.append('CorrectLetter_IncorrectPlace')
+            elif char in Wordle.correct_answer_list:
+                Wordle.guess_check_results.append('CorrectLetter_IncorrectPlace')
                     
             else:    
-                wordle.guess_check_results.append('IncorrectLetter_IncorrectPlace')                 
+                Wordle.guess_check_results.append('IncorrectLetter_IncorrectPlace')                 
                     
             char_position+=1
                 
-        print(wordle.guess_check_results)
-        wordle.guess_counter+=1    
+        print(Wordle.guess_check_results)
+        Wordle.guess_counter+=1    
 
         # win check
 
-        if wordle.entered_word == wordle.correct_answer_list:
-            wordle.is_win = True
+        if Wordle.entered_word == Wordle.correct_answer_list:
+            Wordle.is_win = True
 
         # gameover check
 
-        if wordle.guess_counter == wordle.max_number_of_guesses:
-            wordle.is_gameover = True           
+        if Wordle.guess_counter == Wordle.max_number_of_guesses:
+            Wordle.is_gameover = True           
         
 
     
