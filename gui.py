@@ -7,30 +7,31 @@ def whole_guess_operation():
     #entry to word + dictionary check -> pass word to gamesystem
     
     entered_word = guess_entry.get()
+    entered_word_letters = entered_word
     if entered_word not in gamesystem.Wordle.word_dictionary:
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
         guess_entry.delete(0, END)
 
     else:
-        gamesystem.Wordle.guess_check(entered_word)
+        entered_word = gamesystem.Wordle(entered_word)
         guess_entry.delete(0, END)
 
     # visual answer generation
     
     temporary_position = 0
     
-    for char in gamesystem.Wordle.entered_word:
+    for char in entered_word:
        
         temporary_color = ''
-        if gamesystem.Wordle.guess_check_results[temporary_position] == 'CorrectLetter_CorrectPlace':
+        if entered_word[temporary_position] == 1:
             temporary_color = '#569c38' #green
-        elif gamesystem.Wordle.guess_check_results[temporary_position] == 'CorrectLetter_IncorrectPlace':
+        elif entered_word[temporary_position] == 2:
             temporary_color = '#d6c527' #yellow
-        elif gamesystem.Wordle.guess_check_results[temporary_position] == 'IncorrectLetter_IncorrectPlace': 
+        elif entered_word[temporary_position] == 3: 
             temporary_color = '#7d796b' #grey
         
         print(temporary_color)
-        colorful_box = Label(root, text=char, bg=temporary_color, fg='white', width=10, height=5, font=('Helvetica', 10, 'bold'))
+        colorful_box = Label(root, text=entered_word_letters[temporary_position], bg=temporary_color, fg='white', width=10, height=5, font=('Helvetica', 10, 'bold'))
         colorful_box.grid(row=gamesystem.Wordle.guess_counter, column=temporary_position)
         temporary_position+=1
 
