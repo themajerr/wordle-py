@@ -28,19 +28,6 @@ class Correct_answer:
         print(correct_answer)
         return correct_answer
 class Wordle:
-    #def __init__(self, passed_word, correct_answer):
-    #    self.passed_word = passed_word
-    #    self.correct_anwser = correct_answer
-    
-    
-
-    
-    #guess_counter = 0
-    #max_number_of_guesses = 6
-    
-    
-    
-   
     
     # Enum creation
     class Result(Enum):
@@ -71,18 +58,9 @@ class Wordle:
                         
             char_position+=1
 
-        #self.guess_counter+=1   
-        
-        #if entered_word == self.correct_answer_list:
-        #    self.is_win = True 
-
         print(guess_check_results)
         result = guess_check_results
 
-        #if self.guess_counter == self.max_number_of_guesses:
-        #    self.is_gameover = True
-            
-        
         return result
 
     

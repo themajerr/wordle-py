@@ -4,8 +4,7 @@ from tkinter import messagebox
 from gamesystem import Wordle, Dictionary, Correct_answer
 
 
-global guess_counter
-guess_counter = 0
+
 correct_answer = Correct_answer() 
 
 def whole_guess_operation():
@@ -54,13 +53,11 @@ def whole_guess_operation():
     status_indicator.grid(column=0, row=8, columnspan=6, sticky=W + E, padx=5, pady=5)
 
     # check if the word was correct
-    # komentarz żebym nie zapomniał, dlatego po januszowemu; jeżeli program ma otrzymać wyłącznie info [dobrze, dobrze, średnio] itd to on technicznie nie zna odpowiedzi więc to jest mocno na trytytce xd
     if entered_word == correct_answer:
         messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
         root.quit()
 
     # check for gameover
-    # also komentarz - tutaj też teoretycznie nie zna poprawnej odpowiedzi xd
     if guess_counter == max_number_of_guesses:
         messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer))
         root.quit()
@@ -71,7 +68,7 @@ root.title('Wordle: Igor Edition')
 root.iconbitmap('a.ico')
 
 # variables
-#guess_counter = 0
+guess_counter = 0
 max_number_of_guesses = 6
 
 # interface
