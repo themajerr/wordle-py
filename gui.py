@@ -1,4 +1,4 @@
-from threading import get_ident
+
 from tkinter import *
 from tkinter import messagebox
 from gamesystem import Wordle, Dictionary, Correct_answer
