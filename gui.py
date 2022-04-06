@@ -4,9 +4,8 @@ import wordle
 import dictionary
 import correct_answer
 
-
-correct_answer = correct_answer.Correct_answer() 
-dictionary = dictionary.Dictionary()
+#correct_answer = correct_answer.Correct_answer() 
+#dictionary = dictionary.Dictionary()
 
 def single_guess():
 
@@ -16,13 +15,13 @@ def single_guess():
     entered_word = guess_entry.get()
     entered_word_letters = entered_word
     
-    if entered_word not in dictionary:
+    if entered_word not in dictionary.word_dictionary:
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
         guess_entry.delete(0, END)
 
     else:
         
-        entered_word_returned = wordle.Wordle(entered_word, correct_answer)
+        entered_word_returned = single_game.word_check(entered_word)
         guess_entry.delete(0, END)
 
         # visual answer generation
@@ -32,11 +31,11 @@ def single_guess():
         for char in entered_word:
         
             temporary_color = ''
-            if entered_word_returned[temporary_position] == wordle.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
+            if entered_word_returned[temporary_position] == wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
                 temporary_color = '#569c38' #green
-            elif entered_word_returned[temporary_position] == wordle.Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
+            elif entered_word_returned[temporary_position] == wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
                 temporary_color = '#d6c527' #yellow
-            elif entered_word_returned[temporary_position] == wordle.Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
+            elif entered_word_returned[temporary_position] == wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
                 temporary_color = '#7d796b' #grey
             
             print(temporary_color)
@@ -70,6 +69,9 @@ root.iconbitmap('a.ico')
 # variables
 guess_counter = 0
 max_number_of_guesses = 6
+
+# create game instance
+single_game = wordle.Wordle(correct_answer.selected_correct_answer)
 
 # interface
 guess_entry = Entry(root, width=52, border=5, relief=SUNKEN)
