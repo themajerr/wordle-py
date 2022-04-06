@@ -1,11 +1,14 @@
 from tkinter import *
 from tkinter import messagebox
-from gamesystem import Wordle, Dictionary, Correct_answer
+import wordle 
+import dictionary
+import correct_answer
 
-correct_answer = Correct_answer() 
-dictionary = Dictionary()
 
-def whole_guess_operation():
+correct_answer = correct_answer.Correct_answer() 
+dictionary = dictionary.Dictionary()
+
+def single_guess():
 
     #entry to word + dictionary check -> pass word to gamesystem
     global guess_counter
@@ -19,7 +22,7 @@ def whole_guess_operation():
 
     else:
         
-        entered_word_returned = Wordle(entered_word, correct_answer)
+        entered_word_returned = wordle.Wordle(entered_word, correct_answer)
         guess_entry.delete(0, END)
 
         # visual answer generation
@@ -29,11 +32,11 @@ def whole_guess_operation():
         for char in entered_word:
         
             temporary_color = ''
-            if entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
+            if entered_word_returned[temporary_position] == wordle.Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
                 temporary_color = '#569c38' #green
-            elif entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
+            elif entered_word_returned[temporary_position] == wordle.Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
                 temporary_color = '#d6c527' #yellow
-            elif entered_word_returned[temporary_position] == Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
+            elif entered_word_returned[temporary_position] == wordle.Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
                 temporary_color = '#7d796b' #grey
             
             print(temporary_color)
@@ -73,7 +76,7 @@ guess_entry = Entry(root, width=52, border=5, relief=SUNKEN)
 guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)
 
 
-guess_button = Button(root, text='Guess!', command=whole_guess_operation)
+guess_button = Button(root, text='Guess!', command=single_guess)
 guess_button.grid(column=4, row=7, padx=5, pady=5)
 
 status_indicator = Label(root, text='Guess 0 of 6  ', bd=1, relief=SUNKEN, anchor=E)

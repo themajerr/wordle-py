@@ -1,40 +1,15 @@
-import random
 from enum import Enum, auto
 
-class Dictionary:
-    
-    global split
-    def split(word):
+def split(word):
         return[char for char in word]
-
-    def __new__(self):
-        expected_word_length = 5
-        # Dictionary creation
-        word_dictionary_txt_temp = open('lista.txt').read().split('\n')
-        global word_dictionary
-        word_dictionary = list()
-
-        for word in word_dictionary_txt_temp:
-            if len(word) == expected_word_length:
-                word_dictionary.append(word)
-
-         # Random word selection for answer
-        return word_dictionary
-        
-class Correct_answer:
-    def __new__(self):
-        temporary_dictionary = Dictionary()
-        correct_answer = random.choice(temporary_dictionary)
-        print(correct_answer)
-        return correct_answer
         
 class Wordle:
     
     # Enum creation
     class Result(Enum):
-        CORRECT_WORD_CORRECT_PLACE = auto()
-        CORRECT_WORD_INCORRECT_PLACE = auto()
-        INCORRECT_WORD_INCORRECT_PLACE = auto()
+        CORRECT_WORD_CORRECT_PLACE = 1
+        CORRECT_WORD_INCORRECT_PLACE = 2
+        INCORRECT_WORD_INCORRECT_PLACE = 3
 
     # validation part
     
@@ -60,9 +35,7 @@ class Wordle:
             char_position+=1
 
         print(guess_check_results)
-        result = guess_check_results
-
-        return result
+        return  guess_check_results
 
     
 
