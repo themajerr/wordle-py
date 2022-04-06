@@ -27,6 +27,7 @@ class Correct_answer:
         correct_answer = random.choice(temporary_dictionary)
         print(correct_answer)
         return correct_answer
+        
 class Wordle:
     
     # Enum creation

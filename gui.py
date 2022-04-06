@@ -1,11 +1,9 @@
-
 from tkinter import *
 from tkinter import messagebox
 from gamesystem import Wordle, Dictionary, Correct_answer
 
-
-
 correct_answer = Correct_answer() 
+dictionary = Dictionary()
 
 def whole_guess_operation():
 
@@ -14,8 +12,7 @@ def whole_guess_operation():
     
     entered_word = guess_entry.get()
     entered_word_letters = entered_word
-    dictionary = Dictionary()
-
+    
     if entered_word not in dictionary:
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
         guess_entry.delete(0, END)
@@ -25,42 +22,42 @@ def whole_guess_operation():
         entered_word_returned = Wordle(entered_word, correct_answer)
         guess_entry.delete(0, END)
 
-    # visual answer generation
-    
-    temporary_position = 0
-    
-    for char in entered_word:
-       
-        temporary_color = ''
-        if entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
-            temporary_color = '#569c38' #green
-        elif entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
-            temporary_color = '#d6c527' #yellow
-        elif entered_word_returned[temporary_position] == Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
-            temporary_color = '#7d796b' #grey
+        # visual answer generation
         
-        print(temporary_color)
-        colorful_box = Label(root, text=entered_word_letters[temporary_position], bg=temporary_color, fg='white', width=10, height=5, font=('Helvetica', 10, 'bold'))
-        colorful_box.grid(row=guess_counter, column=temporary_position)
+        temporary_position = 0
         
-        temporary_position+=1
+        for char in entered_word:
         
-    print(entered_word)
-    #update guess indicator
-    
-    guess_counter+=1
-    status_indicator = Label(root, text='Guess ' + str(guess_counter) + ' of 6  ', bd=1, relief=SUNKEN, anchor=E)
-    status_indicator.grid(column=0, row=8, columnspan=6, sticky=W + E, padx=5, pady=5)
+            temporary_color = ''
+            if entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_CORRECT_PLACE.value:
+                temporary_color = '#569c38' #green
+            elif entered_word_returned[temporary_position] == Wordle.Result.CORRECT_WORD_INCORRECT_PLACE.value:
+                temporary_color = '#d6c527' #yellow
+            elif entered_word_returned[temporary_position] == Wordle.Result.INCORRECT_WORD_INCORRECT_PLACE.value: 
+                temporary_color = '#7d796b' #grey
+            
+            print(temporary_color)
+            colorful_box = Label(root, text=entered_word_letters[temporary_position], bg=temporary_color, fg='white', width=10, height=5, font=('Helvetica', 10, 'bold'))
+            colorful_box.grid(row=guess_counter, column=temporary_position)
+            
+            temporary_position+=1
+            
+        print(entered_word)
+        #update guess indicator
+        
+        guess_counter+=1
+        status_indicator = Label(root, text='Guess ' + str(guess_counter) + ' of 6  ', bd=1, relief=SUNKEN, anchor=E)
+        status_indicator.grid(column=0, row=8, columnspan=6, sticky=W + E, padx=5, pady=5)
 
-    # check if the word was correct
-    if entered_word == correct_answer:
-        messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
-        root.quit()
+        # check if the word was correct
+        if entered_word == correct_answer:
+            messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
+            root.quit()
 
-    # check for gameover
-    if guess_counter == max_number_of_guesses:
-        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer))
-        root.quit()
+        # check for gameover
+        if guess_counter == max_number_of_guesses:
+            messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer))
+            root.quit()
 
 # GUI frame + starting elements
 root = Tk()
