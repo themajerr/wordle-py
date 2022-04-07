@@ -11,7 +11,6 @@ class Wordle:
         self.correct_answer = correct_answer
 
     def word_check(self, passed_word):
-        #passed_word = split(passed_word)
         char_position = 0
         guess_check_results = []
 
@@ -27,7 +26,6 @@ class Wordle:
                             
             char_position+=1
 
-        #print(guess_check_results)
         return guess_check_results
 
 
