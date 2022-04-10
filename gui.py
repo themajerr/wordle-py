@@ -4,6 +4,7 @@ import wordle
 import dictionary
 import correct_answer
 import settings
+import webbrowser
 
 def is_word_in_dictionary(word):
     if word not in dictionary.word_list:
@@ -57,6 +58,56 @@ def display_message_and_quit_if_gameover():
         messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer.CORRECT_ANSWER))
         root.quit()
 
+def open_settings_window():
+    settings_window = Tk()
+    settings_window.title('Settings')
+    settings_window.iconbitmap('a.ico')
+
+    settings_window.mainloop
+
+def open_about_window():
+    def open_website(url):
+        webbrowser.open_new_tab(url)
+
+    about_window = Tk()
+    #about_window.geometry('350x100')
+    about_window.title('About')
+    about_window.iconbitmap('a.ico')
+
+    name_label = Label(about_window, text='Wordle!', fg='white', font=('Helvetica', 30, 'bold'), bg='grey', height=2, width=20, relief=RIDGE, border=10)
+    name_label.grid(column=0, row=0, columnspan=4)
+
+    written_by = Label(about_window, text='Written by Igor Majerczak', font=('Helvetica', 10), anchor=CENTER, padx=5, pady=5)
+    written_by.grid(column=0, row=1, columnspan=2, sticky=E)
+
+    written_by_link = Label(about_window, text='github.com/themajerr', font=('Helvetica', 10, 'underline'), fg='blue', cursor='hand2')
+    written_by_link.bind('<Button-1>', lambda e: open_website('github.com/themajerr'))
+    written_by_link.grid(column=2, row=1, columnspan=2, sticky=W)
+
+    based_on_label = Label(about_window, text='Based on Wordle by Josh Wardle', font=('Helvetica', 10), anchor=CENTER, padx=5, pady=5)
+    based_on_label.grid(column=0, row=2, columnspan=2, sticky=E)
+
+    based_on_link = Label(about_window, text='nytimes.com/games/wordle', font=('Helvetica', 10, 'underline'), fg='blue', cursor='hand2')
+    based_on_link.bind('<Button-1>', lambda e: open_website('nytimes.com/games/wordle'))
+    based_on_link.grid(column=2, row=2, columnspan=2, sticky=W)
+    
+    resources_used = Label(about_window, text='RESOURCES USED', font=('Helvetica', 9, 'bold'), anchor=CENTER, padx=5, pady=5)
+    resources_used.grid(row=3, column=0, columnspan=4)
+
+    icon_link = Label(about_window, text='Icon: freewordle.org/images/wordle-game-icon-512.png', font=('Helvetica', 10, 'underline'), fg='blue', cursor='hand2', pady=3)
+    icon_link.bind('<Button-1>', lambda e: open_website('freewordle.org/images/wordle-game-icon-512.png'))
+    icon_link.grid(row=4, column=0, columnspan=4, sticky=W+E)
+
+    dictionary_link = Label(about_window, text='Dictionary: github.com/dwyl/english-words', font=('Helvetica', 10, 'underline'), fg='blue', cursor='hand2', pady=3)
+    dictionary_link.bind('<Button-1>', lambda e: open_website('github.com/dwyl/english-words'))
+    dictionary_link.grid(row=5, column=0, columnspan=4, sticky=W+E) 
+    about_window.mainloop
+
+def open_how_to_play_window():
+    how_to_play_window = Tk()
+    how_to_play_window.title('How to play')
+    how_to_play_window.iconbitmap('a.ico')
+
 root = Tk()
 root.title('Wordle: Igor Edition')
 root.iconbitmap('a.ico')
@@ -65,6 +116,20 @@ guess_counter = 0
 MAX_NUMBER_OF_GUESSES = settings.settings["max_number_of_guesses"]
 
 single_game = wordle.Wordle(correct_answer.CORRECT_ANSWER)
+
+menu_bar = Menu(root)
+root.config(menu=menu_bar)
+
+file_menu = Menu(menu_bar, tearoff=False)
+file_menu.add_command(label='Settings', command=open_settings_window)
+menu_bar.add_cascade(label='File', menu=file_menu)
+
+help_menu = Menu(menu_bar, tearoff=False)
+help_menu.add_command(label='How to play', command=open_how_to_play_window)
+help_menu.add_command(label='About', command=open_about_window)
+help_menu.add_separator()
+help_menu.add_command(label='Exit', command=root.destroy)
+menu_bar.add_cascade(label='Help', menu=help_menu)
 
 guess_entry = Entry(root, width=52, border=5, relief=SUNKEN)
 guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)
