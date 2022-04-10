@@ -3,9 +3,10 @@ from tkinter import messagebox
 import wordle 
 import dictionary
 import correct_answer
+import settings
 
 def is_word_in_dictionary(word):
-    if word not in dictionary.word_dictionary:
+    if word not in dictionary.word_list:
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
     else:
         single_guess(word)
@@ -47,13 +48,13 @@ def update_status_indicator():
     guess_indicator_text.set('Guess ' + str(guess_counter) + ' of 6  ')
 
 def display_message_and_quit_if_won(word):
-    if word == correct_answer.selected_correct_answer:
+    if word == correct_answer.CORRECT_ANSWER:
         messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
         root.quit()
 
 def display_message_and_quit_if_gameover():
-    if guess_counter == max_number_of_guesses:
-        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer.selected_correct_answer))
+    if guess_counter == MAX_NUMBER_OF_GUESSES:
+        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer.CORRECT_ANSWER))
         root.quit()
 
 root = Tk()
@@ -61,9 +62,9 @@ root.title('Wordle: Igor Edition')
 root.iconbitmap('a.ico')
 
 guess_counter = 0
-max_number_of_guesses = 6
+MAX_NUMBER_OF_GUESSES = settings.settings["max_number_of_guesses"]
 
-single_game = wordle.Wordle(correct_answer.selected_correct_answer)
+single_game = wordle.Wordle(correct_answer.CORRECT_ANSWER)
 
 guess_entry = Entry(root, width=52, border=5, relief=SUNKEN)
 guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)

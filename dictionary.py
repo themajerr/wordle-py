@@ -1,9 +1,11 @@
-word_dictionary = []
-word_dictionary_full = list(open('lista.txt').read().split('\n'))
-word_dictionary_full.sort(reverse=True)
+import settings
 
-expected_word_length = 5
+EXPECTED_WORD_LENGTH = settings.settings["expected_word_length"]
+word_list_full = list(open('lista.txt').read().split('\n'))
+word_list_full.sort(reverse=True)
 
-for word in word_dictionary_full:
-    if len(word) == expected_word_length:
-        word_dictionary.append(word)
+word_list = []
+
+for word in word_list_full:
+    if len(word) == EXPECTED_WORD_LENGTH:
+        word_list.append(word)
