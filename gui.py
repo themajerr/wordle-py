@@ -2,12 +2,12 @@ from tkinter import *
 from tkinter import messagebox
 import wordle 
 import dictionary
-import correct_answer
+import correctanswer
 import settings
 import webbrowser
 
 def is_word_in_dictionary(word):
-    if word not in dictionary.word_list:
+    if word not in wordlist.open_wordlist():
         messagebox.showerror(title='Error!', message='This word is not in the dictionary!')
     else:
         single_guess(word)
@@ -46,22 +46,42 @@ def display_result(word):
 def update_status_indicator():
     global guess_counter
     guess_counter+=1
-    guess_indicator_text.set('Guess ' + str(guess_counter) + ' of 6  ')
-
+    status_indicator.config(text=('Guess ' + str(guess_counter) + ' of ' + str(current_settings.get_max_number_of_guesses())))
+    
 def display_message_and_quit_if_won(word):
     if word == correct_answer.CORRECT_ANSWER:
         messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
+        current_settings.reset_settings_to_default()
         root.quit()
 
 def display_message_and_quit_if_gameover():
-    if guess_counter == MAX_NUMBER_OF_GUESSES:
-        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer.CORRECT_ANSWER))
+    if guess_counter == int(current_settings.get_max_number_of_guesses()):
+        messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(correct_answer.return_correct_answer()))
+        current_settings.reset_settings_to_default
         root.quit()
 
 def open_settings_window():
+    def save_current_settings():
+        current_settings.dump_settings_into_file(word_length_setting_input.get(), max_guess_number_input.get())
+        status_indicator.config(text=('Guess ' + str(guess_counter) + ' of ' + str(current_settings.get_max_number_of_guesses())))
+
     settings_window = Tk()
     settings_window.title('Settings')
     settings_window.iconbitmap('a.ico')
+
+    word_length_setting_text = Label(settings_window, text='Words length (suggested - 4-8): ')
+    word_length_setting_text.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
+    word_length_setting_input = Entry(settings_window, width=5)
+    word_length_setting_input.grid(column=2, row=0, padx=5, pady=5)
+   
+    max_guess_number_text = Label(settings_window, text="How many guesses do you want to have?")
+    max_guess_number_text.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
+    max_guess_number_input = Entry(settings_window, width=5)
+    max_guess_number_input.grid(column=2, row=1, padx=5, pady=5)
+
+    save_settings_button = Button(settings_window, text="Save", width=5, command=save_current_settings)
+    save_settings_button.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
+
 
     settings_window.mainloop
 
@@ -70,7 +90,6 @@ def open_about_window():
         webbrowser.open_new_tab(url)
 
     about_window = Tk()
-    #about_window.geometry('350x100')
     about_window.title('About')
     about_window.iconbitmap('a.ico')
 
@@ -103,19 +122,16 @@ def open_about_window():
     dictionary_link.grid(row=5, column=0, columnspan=4, sticky=W+E) 
     about_window.mainloop
 
-def open_how_to_play_window():
-    how_to_play_window = Tk()
-    how_to_play_window.title('How to play')
-    how_to_play_window.iconbitmap('a.ico')
-
 root = Tk()
 root.title('Wordle: Igor Edition')
 root.iconbitmap('a.ico')
 
 guess_counter = 0
-MAX_NUMBER_OF_GUESSES = settings.settings["max_number_of_guesses"]
+current_settings = settings.Settings()
+wordlist = dictionary.WordList(int(current_settings.get_expected_word_length()))
+correct_answer = correctanswer.CorrectAnswer(wordlist.open_wordlist())
+single_game = wordle.Wordle(correct_answer.return_correct_answer())
 
-single_game = wordle.Wordle(correct_answer.CORRECT_ANSWER)
 
 menu_bar = Menu(root)
 root.config(menu=menu_bar)
@@ -125,7 +141,6 @@ file_menu.add_command(label='Settings', command=open_settings_window)
 menu_bar.add_cascade(label='File', menu=file_menu)
 
 help_menu = Menu(menu_bar, tearoff=False)
-help_menu.add_command(label='How to play', command=open_how_to_play_window)
 help_menu.add_command(label='About', command=open_about_window)
 help_menu.add_separator()
 help_menu.add_command(label='Exit', command=root.destroy)
@@ -138,9 +153,8 @@ guess_entry.grid(column=0, row=7, columnspan=4, padx=5, pady=5)
 guess_button = Button(root, text='Guess!', command=lambda: is_word_in_dictionary(guess_entry.get()))
 guess_button.grid(column=4, row=7, padx=5, pady=5)
 
-guess_indicator_text = StringVar()
-guess_indicator_text.set('Guess ' + str(guess_counter) + ' of 6  ')
-status_indicator = Label(root, textvariable= guess_indicator_text, bd=1, relief=SUNKEN, anchor=E)
+
+status_indicator = Label(root, text=('Guess ' + str(guess_counter) + ' of ' + str(current_settings.get_max_number_of_guesses())), bd=1, relief=SUNKEN, anchor=E)
 status_indicator.grid(column=0, row=8, columnspan=5, sticky=W+E, padx=5, pady=5)
 
 

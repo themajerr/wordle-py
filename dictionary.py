@@ -1,11 +1,20 @@
 import settings
 
-EXPECTED_WORD_LENGTH = settings.settings["expected_word_length"]
-word_list_full = list(open('dictionary.txt').read().split('\n'))
-word_list_full.sort(reverse=True)
+class WordList:
+    def __init__(self, expected_word_length):
+        self.expected_word_length = expected_word_length
+        self.create_wordlist(expected_word_length)
 
-word_list = []
+    def create_wordlist(self, expected_word_length):
+        
+        word_list_full = list(open('dictionary.txt').read().split('\n'))
+        word_list_full.sort(reverse=True)
 
-for word in word_list_full:
-    if len(word) == EXPECTED_WORD_LENGTH:
-        word_list.append(word)
+        self.word_list = []
+
+        for word in word_list_full:
+            if len(word) == expected_word_length:
+                self.word_list.append(word)
+
+    def open_wordlist(self):
+        return self.word_list

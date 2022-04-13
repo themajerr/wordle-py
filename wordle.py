@@ -1,5 +1,4 @@
 from enum import Enum
-from correct_answer import *
 
 class Result(Enum):
             CORRECT_WORD_CORRECT_PLACE = 1
