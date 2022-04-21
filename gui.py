@@ -112,8 +112,19 @@ class Gui:
         def save_current_settings():
             self.current_settings.dump_settings_into_file(word_length_setting_input.get(), max_guess_number_input.get())
             self.status_indicator.config(text=('Guess ' + str(self.guess_counter) + ' of ' + str(self.current_settings.get_max_number_of_guesses())))
+            del self.current_settings 
+            del self.wordlist
+            del self.correct_answer
+            del self.single_game
+            
+            settings_window.destroy()
+            self.root.destroy()
+
+            app = Gui()      
+
 
         settings_window = Tk()
+
         settings_window.title('Settings')
         settings_window.iconbitmap('a.ico')
 
