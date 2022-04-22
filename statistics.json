@@ -1,0 +1,39 @@
+{
+    "game_statistics": {
+        "stell": [
+            "stell",
+            1,
+            6
+        ],
+        "word": [
+            "word",
+            "guess_counter",
+            "max_number_of_guesses"
+        ],
+        "basks": [
+            "basks",
+            1,
+            6
+        ],
+        "yolks": [
+            "yolks",
+            2,
+            6
+        ],
+        "rexen": [
+            "rexen",
+            1,
+            6
+        ],
+        "cains": [
+            "cains",
+            1,
+            6
+        ],
+        "chile": [
+            "chile",
+            1,
+            6
+        ]
+    }
+}

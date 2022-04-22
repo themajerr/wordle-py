@@ -1,18 +1,15 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.ttk import Treeview
 import wordle 
 import wordlist
 import correctanswer
 import settings
 import webbrowser
+import gamerecords
 
 class Gui:
     def __init__(self):
-        #self.current_settings = current_settings
-        #self.wordlist = wordlist
-        #self.correct_answer = correct_answer
-        #self.single_game = single_game
-        
 
         root = Tk()
         self.root = root
@@ -24,12 +21,14 @@ class Gui:
         self.wordlist = wordlist.WordList(int(self.current_settings.get_expected_word_length()))
         self.correct_answer = correctanswer.CorrectAnswer(self.wordlist.open_wordlist())
         self.single_game = wordle.Wordle(self.correct_answer.return_correct_answer())
-
+        self.game_statistics = gamerecords.Gamerecords()
 
         menu_bar = Menu(root)
         root.config(menu=menu_bar)
 
         file_menu = Menu(menu_bar, tearoff=False)
+        file_menu.add_command(label='Statistics', command=self.open_stats_window)
+        file_menu.add_separator()
         file_menu.add_command(label='Settings', command=self.open_settings_window)
         menu_bar.add_cascade(label='File', menu=file_menu)
 
@@ -99,12 +98,14 @@ class Gui:
     def display_message_and_quit_if_won(self, word):
         if word == self.correct_answer.CORRECT_ANSWER:
             messagebox.showinfo(title="You won!", message='Congratulation! You have guessed the answer!')
+            self.game_statistics.add_game_report_to_statistics(word, self.guess_counter, self.current_settings.get_max_number_of_guesses())
             self.current_settings.reset_settings_to_default()
             self.root.quit()
 
     def display_message_and_quit_if_gameover(self):
         if self.guess_counter == int(self.current_settings.get_max_number_of_guesses()):
             messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(self.correct_answer.return_correct_answer()))
+            self.game_statistics.add_game_report_to_statistics(word, self.guess_counter, self.current_settings.get_max_number_of_guesses())
             self.current_settings.reset_settings_to_default
             self.root.quit()
 
@@ -181,4 +182,35 @@ class Gui:
         dictionary_link.grid(row=5, column=0, columnspan=4, sticky=W+E) 
         about_window.mainloop
 
+    def open_stats_window(self):
+        
+        stats_window = Tk()
+        stats_window.title('Statistics')
+        stats_window.iconbitmap('a.ico')
+
+        
+
+        statistics_display_frame = Frame(stats_window)
+        statistics_display_frame.pack()
+
+        statistics_display = Treeview(statistics_display_frame)
+        statistics_display['columns'] = ('Word', 'Number of guesses', 'Max number of guesses')
+
+        statistics_display.column('#0', width=0, stretch=NO)
+        statistics_display.column('Word', anchor=CENTER)
+        statistics_display.column('Number of guesses', anchor=CENTER)
+        statistics_display.column('Max number of guesses', anchor=CENTER)
+
+        statistics_display.heading('Word', text='Word', anchor=CENTER)
+        statistics_display.heading('Number of guesses', text='Number of guesses', anchor=CENTER)
+        statistics_display.heading('Max number of guesses', text='Max number of guesses', anchor=CENTER)
+        
+        temporary_game_records = self.game_statistics.output_statistics()
+        print(temporary_game_records)
+        for game in temporary_game_records['game_statistics']:
+            statistics_display.insert(parent='', index='end', values=(temporary_game_records['game_statistics'][game][0], temporary_game_records['game_statistics'][game][1], temporary_game_records['game_statistics'][game][2]))
+
+
+        statistics_display.pack()
+        stats_window.mainloop()
     

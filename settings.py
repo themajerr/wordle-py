@@ -31,7 +31,3 @@ class Settings:
     
     def get_max_number_of_guesses(self):
         return self.max_number_of_guesses
-
-#for temporary use only
-#expected_word_length = 5
-#max_number_of_guesses = 6

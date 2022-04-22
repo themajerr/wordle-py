@@ -1,4 +1,4 @@
 {
-    "expected_word_length": "4",
-    "max_number_of_guesses": "3"
+    "expected_word_length": 5,
+    "max_number_of_guesses": 6
 }
