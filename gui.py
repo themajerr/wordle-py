@@ -7,14 +7,30 @@ import correctanswer
 import settings
 import webbrowser
 import gamerecords
+import os
+import sys
 
 class Gui:
+    def resource_path(relative_path):    
+        try:       
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
     def __init__(self):
 
         root = Tk()
         self.root = root
         root.title('Wordle: Igor Edition')
-        root.iconbitmap('a.ico')
+
+        datafile = "icon.ico"
+        if not hasattr(sys, "frozen"):
+            datafile = os.path.join(os.path.dirname(__file__), datafile)
+        else:
+            datafile = os.path.join(sys.prefix, datafile)
+        root.iconbitmap(default=datafile)
+        
 
         self.guess_counter = 0
         self.current_settings = settings.Settings()
@@ -127,7 +143,7 @@ class Gui:
         settings_window = Tk()
 
         settings_window.title('Settings')
-        settings_window.iconbitmap('a.ico')
+        
 
         word_length_setting_text = Label(settings_window, text='Words length (suggested - 4-8): ')
         word_length_setting_text.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
@@ -151,7 +167,7 @@ class Gui:
 
         about_window = Tk()
         about_window.title('About')
-        about_window.iconbitmap('a.ico')
+        
 
         name_label = Label(about_window, text='Wordle!', fg='white', font=('Helvetica', 30, 'bold'), bg='grey', height=2, width=20, relief=RIDGE, border=10)
         name_label.grid(column=0, row=0, columnspan=4)
@@ -186,7 +202,7 @@ class Gui:
         
         stats_window = Tk()
         stats_window.title('Statistics')
-        stats_window.iconbitmap('a.ico')
+        
 
         
 
