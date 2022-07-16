@@ -21,7 +21,7 @@ class Gamerecords:
              
                 
     
-    def output_statistics(self):
+    def get_statistics(self):
         return self.game_records
 
        

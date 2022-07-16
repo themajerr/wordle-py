@@ -20,7 +20,7 @@ class Gui:
         self.current_settings = settings.Settings()
         self.wordlist = wordlist.WordList(int(self.current_settings.get_expected_word_length()))
         self.correct_answer = correctanswer.CorrectAnswer(self.wordlist.open_wordlist())
-        self.single_game = wordle.Wordle(self.correct_answer.return_correct_answer())
+        self.single_game = wordle.Wordle(self.correct_answer.get_correct_answer())
         self.game_statistics = gamerecords.Gamerecords()
 
         menu_bar = Menu(root)
@@ -104,15 +104,9 @@ class Gui:
 
     def display_message_and_quit_if_gameover(self):
         if self.guess_counter == int(self.current_settings.get_max_number_of_guesses()):
-<<<<<<< HEAD
-            messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(self.correct_answer.return_correct_answer()))
-            self.game_statistics.add_game_report_to_statistics(word, self.guess_counter, self.current_settings.get_max_number_of_guesses())
-            self.current_settings.reset_settings_to_default
-=======
             messagebox.showerror(title='Game over!', message='Too bad! You have ran out of guesses!.\nCorrect answer is: ' + str(self.correct_answer.get_correct_answer()))
             self.game_statistics.add_game_report_to_statistics(self.correct_answer.get_correct_answer(), "Failed", self.current_settings.get_max_number_of_guesses())
             self.current_settings.reset_settings_to_default()
->>>>>>> e554c60... Bug fix - game over stats now adding correctly
             self.root.quit()
 
     def open_settings_window(self):
@@ -211,12 +205,7 @@ class Gui:
         statistics_display.heading('Number of guesses', text='Number of guesses', anchor=CENTER)
         statistics_display.heading('Max number of guesses', text='Max number of guesses', anchor=CENTER)
         
-<<<<<<< HEAD
-        temporary_game_records = self.game_statistics.output_statistics()
-        print(temporary_game_records)
-=======
         temporary_game_records = self.game_statistics.get_statistics()
->>>>>>> e554c60... Bug fix - game over stats now adding correctly
         for game in temporary_game_records['game_statistics']:
             statistics_display.insert(parent='', index='end', values=(temporary_game_records['game_statistics'][game][0], temporary_game_records['game_statistics'][game][1], temporary_game_records['game_statistics'][game][2]))
 
