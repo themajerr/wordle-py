@@ -18,11 +18,12 @@ class Gui:
             base_path = os.path.abspath(".")
 
         return os.path.join(base_path, relative_path)
+
     def __init__(self):
 
         root = Tk()
         self.root = root
-        root.title('Wordle: Igor Edition')
+        root.title('Wordle: Python Edition')
 
         datafile = "icon.ico"
         if not hasattr(sys, "frozen"):
